@@ -1,0 +1,41 @@
+.hero {
+  height: 100dvh;
+
+  &__container {
+    @include container();
+
+    &,
+    & > * {
+      height: 100%;
+    }
+
+    .container {
+      &__left {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+
+        @include screen-min("md") {
+          width: 50%;
+        }
+
+        .left {
+          &__title {
+            @include texts("6xl");
+            margin-bottom: 0.1em;
+          }
+          &__description {
+            @include screen-min("md") {
+              width: 80%;
+            }
+            @include texts("xl");
+            margin-bottom: 2em;
+          }
+          &__button {
+          }
+        }
+      }
+    }
+  }
+}

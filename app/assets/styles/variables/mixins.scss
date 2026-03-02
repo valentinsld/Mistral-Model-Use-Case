@@ -126,6 +126,30 @@
   }
 }
 
+@mixin container {
+  width: 100%;
+  padding-left: spacing(4);
+  padding-right: spacing(4);
+  margin-left: auto;
+  margin-right: auto;
+
+  @include screen-min("sm") {
+    max-width: size(48);
+  }
+  @include screen-min("md") {
+    max-width: size(64);
+  }
+  @include screen-min("lg") {
+    max-width: size(72);
+  }
+  @include screen-min("xl") {
+    max-width: size(80);
+  }
+  @include screen-min("2xl") {
+    max-width: size(96);
+  }
+}
+
 // ============================================
 // mixin : texts
 // Applique des styles de texte prédéfinis
@@ -138,31 +162,24 @@
     font-size: size(1);
     line-height: 1.5;
   } @else if $size == "lg" {
-    font-family: font("serif");
     font-size: size(1.125);
-    line-height: 1.75;
+    line-height: 1.5;
   } @else if $size == "xl" {
-    font-family: font("serif");
     font-size: size(1.25);
-    line-height: 1.75;
+    line-height: 1.5;
   } @else if $size == "2xl" {
-    font-family: font("serif");
     font-size: size(1.5);
-    line-height: 2;
+    line-height: 1.5;
   } @else if $size == "3xl" {
-    font-family: font("serif");
     font-size: size(1.875);
-    line-height: 2.25;
+    line-height: 1.5;
   } @else if $size == "4xl" {
-    font-family: font("serif");
     font-size: size(2.25);
-    line-height: 2.5;
+    line-height: 1.5;
   } @else if $size == "5xl" {
-    font-family: font("serif");
     font-size: size(3);
-    line-height: 1;
+    line-height: 1.5;
   } @else if $size == "6xl" {
-    font-family: font("serif");
     font-size: size(3.75);
     line-height: 1;
   }

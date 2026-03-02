@@ -12,12 +12,24 @@
     position: relative;
     z-index: 2;
     display: inline-block;
+    vertical-align: middle;
+
+    .content {
+      &__icon {
+        width: 1.2em;
+        height: 1.2em;
+        margin-left: spacing(4);
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
   }
 
   &::before {
     box-sizing: border-box;
     content: "";
     position: absolute;
+    pointer-events: none;
     inset: -1px;
     width: calc(100% + 2px);
     height: calc(100% + 2px);
@@ -135,7 +147,7 @@
         1
       );
   }
-  &:hover &__content,
+  // &:hover &__content,
   &:hover::before {
     transform: scale(1.05);
   }

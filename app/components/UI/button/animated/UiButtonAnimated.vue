@@ -18,7 +18,7 @@ onUnmounted(() => {
 <template>
   <button ref="buttonRef" class="ui-button-animated">
     <span class="ui-button-animated__content">
-      <slot />
+      <slot /> <span class="content__icon" />
     </span>
   </button>
 </template>

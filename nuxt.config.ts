@@ -22,6 +22,11 @@ export default defineNuxtConfig({
 
   modules: ["lenis/nuxt"],
 
+  alias: {
+    "raf-manager": "./assets/webgl/utils/RafManager.js",
+    "resize-manager": "./assets/webgl/utils/ResizeManager.js",
+  },
+
   vite: {
     css: {
       preprocessorOptions: {

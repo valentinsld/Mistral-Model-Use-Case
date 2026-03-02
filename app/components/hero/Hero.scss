@@ -1,4 +1,5 @@
 .hero {
+  position: relative;
   height: 100dvh;
 
   &__container {
@@ -40,4 +41,49 @@
       }
     }
   }
+
+  &__background-grid {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background-image:
+      linear-gradient(to right, color("border") 1px, transparent 1px),
+      linear-gradient(to bottom, color("border") 1px, transparent 1px);
+    background-size: var(--square-size) var(--square-size);
+
+    &::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        color("background") 25%,
+        color("background", 500, 0.5) 65%
+      );
+    }
+
+    .background-grid {
+      &__square {
+        position: absolute;
+        z-index: -2;
+        width: var(--square-size);
+        height: var(--square-size);
+        left: calc(var(--pos-x) * var(--square-size));
+        top: calc(var(--pos-y) * var(--square-size));
+        // background-color: color("border");
+        background-color: color("warning", 200, 0.5);
+      }
+    }
+  }
+}
+
+.square-enter-active,
+.square-leave-active {
+  transition: opacity 0.65s ease;
+}
+
+.square-enter-from,
+.square-leave-to {
+  opacity: 0;
 }

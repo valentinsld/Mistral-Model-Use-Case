@@ -29,6 +29,8 @@ function toggleRandom() {
   const idx = Math.floor(Math.random() * squares.length)
   const square = squares[idx]
 
+  if (!square) return
+
   if (square.visible) {
     const visCount = squares.filter(s => s.visible).length
     if (visCount > 1) {

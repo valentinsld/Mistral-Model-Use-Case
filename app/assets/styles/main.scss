@@ -1,0 +1,17 @@
+@use "./reset.scss";
+@use "./variables/variables.scss";
+
+html,
+body {
+  height: 100%;
+  font-family: font("sans");
+  background-color: color("background");
+  color: color("foreground");
+
+  @include texts("base");
+
+  *::selection {
+    background-color: color("primary");
+    color: color("background");
+  }
+}

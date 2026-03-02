@@ -19,10 +19,7 @@
     z-index: 10;
 
     @include screen-min("md") {
-      padding-left: auto;
-      padding-right: auto;
-      max-width: size(72);
-      margin: 0 auto;
+      @include container();
     }
   }
 

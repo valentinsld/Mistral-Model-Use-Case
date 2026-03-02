@@ -62,7 +62,7 @@ export default class WebGL {
       0,
       this.size.height,
       0.1,
-      1000
+      1000,
     )
 
     this.camera.position.z = 500
@@ -79,11 +79,11 @@ export default class WebGL {
     })
     this.renderer.setSize(this.size.width, this.size.height)
     this.renderer.setPixelRatio(
-      Math.min(window.devicePixelRatio, isLowPerformance ? 1 : 2)
+      Math.min(window.devicePixelRatio, isLowPerformance ? 1 : 2),
     )
-    this.renderer.outputColorSpace = THREE.SRGBColorSpace
-    this.renderer.toneMapping = THREE.ACESFilmicToneMapping // ou ACES pour du réalisme
-    this.renderer.toneMappingExposure = 1.0
+    // this.renderer.outputColorSpace = THREE.SRGBColorSpace
+    // this.renderer.toneMapping = THREE.ACESFilmicToneMapping // ou ACES pour du réalisme
+    // this.renderer.toneMappingExposure = 1.0
 
     this.renderer.domElement.style.position = "fixed"
     this.renderer.domElement.style.top = `-${HEIGHT_OFFSET / 2}px`

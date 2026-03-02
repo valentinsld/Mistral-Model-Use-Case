@@ -120,7 +120,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: '';
+  content: "";
   content: none;
 }
 table {
@@ -135,9 +135,12 @@ table {
 // ============================================
 a,
 button {
+  appearance: none;
   text-decoration: none;
   /* stylelint-disable-next-line */
   color: currentColor;
+  background-color: inherit;
+  border: none;
 }
 img {
   max-width: 100%;

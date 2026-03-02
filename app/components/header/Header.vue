@@ -23,18 +23,18 @@
             </li>
 
             <li class="list__item">
-              <a class="item__link" href="/solutions" role="menuitem">
+              <button class="item__link" role="menuitem">
                 Solutions
                 <span class="link__icon">
                   <span class="icon__arrows">
                     <IconsArrowDown class="arrows__svg is-down" />
                   </span>
                 </span>
-              </a>
+              </button>
             </li>
 
             <li class="list__item">
-              <a class="item__link" href="/models" role="menuitem">
+              <button class="item__link" role="menuitem">
                 Recherche
                 <span class="link__icon">
                   <span class="icon__arrows">
@@ -42,29 +42,29 @@
 
                   </span>
                 </span>
-              </a>
+              </button>
             </li>
 
             <li class="list__item">
-              <a class="item__link" href="/news" role="menuitem">
+              <button class="item__link" role="menuitem">
                 Blog
                 <span class="link__icon">
                   <span class="icon__arrows">
                     <IconsArrowDown class="arrows__svg is-down" />
                   </span>
                 </span>
-              </a>
+              </button>
             </li>
 
             <li class="list__item">
-              <a class="item__link" href="/customers" role="menuitem">
+              <button class="item__link" role="menuitem">
                 Clients
                 <span class="link__icon">
                   <span class="icon__arrows">
                     <IconsArrowDown class="arrows__svg is-down" />
                   </span>
                 </span>
-              </a>
+              </button>
             </li>
 
             <li class="list__item is-dropdown">

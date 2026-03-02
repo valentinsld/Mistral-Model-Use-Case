@@ -1,3 +1,4 @@
 <template>
   <LandingPageHero />
+  <LandingPageIntroductionModels />
 </template>

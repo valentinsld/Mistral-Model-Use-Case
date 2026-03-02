@@ -166,19 +166,19 @@
     line-height: 1.5;
   } @else if $size == "xl" {
     font-size: size(1.25);
-    line-height: 1.5;
+    line-height: 1.35;
   } @else if $size == "2xl" {
     font-size: size(1.5);
-    line-height: 1.5;
+    line-height: 1.25;
   } @else if $size == "3xl" {
     font-size: size(1.875);
-    line-height: 1.5;
+    line-height: 1.2;
   } @else if $size == "4xl" {
     font-size: size(2.25);
-    line-height: 1.5;
+    line-height: 1.15;
   } @else if $size == "5xl" {
     font-size: size(3);
-    line-height: 1.5;
+    line-height: 1.15;
   } @else if $size == "6xl" {
     font-size: size(3.75);
     line-height: 1;

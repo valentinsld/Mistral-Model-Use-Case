@@ -6,6 +6,7 @@
   width: 100%;
 
   // blur background
+  mask: linear-gradient(black, black, black, transparent);
   backdrop-filter: blur(10px);
 
   // Main container

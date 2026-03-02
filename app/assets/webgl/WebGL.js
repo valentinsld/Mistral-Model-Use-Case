@@ -2,6 +2,8 @@ import * as THREE from "three"
 import RAFManager from "raf-manager"
 import ResizeManager from "resize-manager"
 
+THREE.ColorManagement.enabled = false
+
 export const HEIGHT_OFFSET = 200
 export default class WebGL {
   static instance
@@ -81,7 +83,7 @@ export default class WebGL {
     this.renderer.setPixelRatio(
       Math.min(window.devicePixelRatio, isLowPerformance ? 1 : 2),
     )
-    // this.renderer.outputColorSpace = THREE.SRGBColorSpace
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace
     // this.renderer.toneMapping = THREE.ACESFilmicToneMapping // ou ACES pour du réalisme
     // this.renderer.toneMappingExposure = 1.0
 

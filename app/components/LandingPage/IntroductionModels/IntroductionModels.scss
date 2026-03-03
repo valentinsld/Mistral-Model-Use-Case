@@ -1,9 +1,10 @@
 .introduction-models {
-  min-height: 50dvh;
+  min-height: 45dvh;
   @include container();
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   text-align: center;
   gap: spacing(2);

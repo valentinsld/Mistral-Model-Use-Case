@@ -1,5 +1,6 @@
 .hero {
   position: relative;
+  overflow: hidden;
   height: 105dvh;
   padding-bottom: 5dvh;
 
@@ -62,7 +63,7 @@
           ellipse at center,
           color("background", 500, 0.9) 0%,
           color("background", 500, 0.8) 20%,
-          color("background", 500, 0.5) 30%
+          color("background", 500, 0.2) 30%
         ),
         // background bottom to top
         linear-gradient(
@@ -84,6 +85,40 @@
         top: calc(var(--pos-y) * var(--square-size));
         // background-color: color("border");
         background-color: color("warning", 200, 0.5);
+      }
+
+      &__model {
+        box-sizing: border-box;
+        position: absolute;
+        z-index: -2;
+        width: calc(2 * var(--square-size) + 1px);
+        height: calc(2 * var(--square-size) + 1px);
+        left: calc(var(--pos-x) * var(--square-size));
+        top: calc(var(--pos-y) * var(--square-size));
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: spacing(4);
+        border: 1px solid color("border");
+        background-color: color("background", 500, 0.8);
+        color: color("foreground", 500, 0.6);
+        font-size: 0.65rem;
+        text-align: center;
+        padding: spacing(2);
+        pointer-events: none;
+
+        .model {
+          &__image {
+            width: 40%;
+            height: auto;
+            opacity: 0.6;
+          }
+
+          &__name {
+            line-height: 1.1;
+          }
+        }
       }
     }
   }

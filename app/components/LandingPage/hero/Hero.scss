@@ -71,7 +71,7 @@
             color("background", 500, 0) 75%,
             color("background") 100%
           );
-      background-size: 200% 100%;
+      background-size: 200% calc(100% + 3.5vh);
       background-position: center -3.5vh;
     }
 

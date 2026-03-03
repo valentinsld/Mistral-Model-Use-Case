@@ -1,5 +1,5 @@
 .introduction-models {
-  min-height: 100dvh;
+  min-height: 50dvh;
   @include container();
 
   display: flex;
@@ -33,6 +33,13 @@
   &__description {
     @include texts("4xl");
     max-width: 600px;
+
+    & > span {
+      position: relative;
+      white-space: nowrap;
+      width: max-content;
+      margin: 0 auto;
+    }
   }
 
   &__usage {

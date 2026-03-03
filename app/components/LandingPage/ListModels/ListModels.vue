@@ -157,14 +157,12 @@ function initPixelArts() {
 }
 
 watch(centerElementIndex, (newIndex) => {
-  console.log('Center element index changed:', newIndex)
   if (pixelArts) {
     pixelArts.setPixelArt(newIndex)
   }
 })
 
 watch(isSectionVisible, (isVisible) => {
-  console.log('Section visibility changed:', isVisible)
   if (pixelArts && !isVisible) {
     pixelArts.out()
   }

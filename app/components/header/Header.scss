@@ -165,7 +165,7 @@
     padding: spacing(2) spacing(4);
     @include texts("sm");
     color: color("foreground");
-    background-color: color("background", 400, 0.5);
+    background-color: color("background-2", 400, 0.5);
     text-decoration: none;
     white-space: nowrap;
     overflow: hidden;

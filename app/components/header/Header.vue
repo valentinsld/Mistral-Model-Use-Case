@@ -13,7 +13,7 @@
           <ul class="nav__list">
             <li class="list__item is-dropdown">
               <button class="item__link" role="menuitem" aria-haspopup="menu" aria-expanded="false">
-                Produits
+                Products
                 <span class="link__icon">
                   <span class="icon__arrows">
                     <IconsArrowDown class="arrows__svg is-down" />
@@ -35,7 +35,7 @@
 
             <li class="list__item">
               <button class="item__link" role="menuitem">
-                Recherche
+                Research
                 <span class="link__icon">
                   <span class="icon__arrows">
                     <IconsArrowDown class="arrows__svg is-down" />
@@ -58,7 +58,7 @@
 
             <li class="list__item">
               <button class="item__link" role="menuitem">
-                Clients
+                Customers
                 <span class="link__icon">
                   <span class="icon__arrows">
                     <IconsArrowDown class="arrows__svg is-down" />
@@ -69,7 +69,7 @@
 
             <li class="list__item is-dropdown">
               <button class="item__link" role="menuitem" aria-haspopup="menu" aria-expanded="false">
-                Entreprise
+                Company
                 <span class="link__icon">
                   <span class="icon__arrows">
                     <IconsArrowDown class="arrows__svg is-down" />
@@ -84,7 +84,7 @@
       <!-- Right: Actions -->
       <div class="header__right">
         <a class="header__contact" href="/contact" target="_self">
-          Contact commercial
+          Contact Sales
           <svg class="contact__icon" width="24" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M8.5 7.86859L8.5 5.30859L5.94 5.30859L5.94 7.86859L8.5 7.86859Z" fill="currentColor" />
             <path d="M5.9375 5.29828L5.9375 2.73828L3.3775 2.73828L3.3775 5.29828L5.9375 5.29828Z"
@@ -101,7 +101,7 @@
         <div class="header__studio">
           <a class="studio__link" href="https://console.mistral.ai?utm_source=website&utm_medium=header_cta"
             target="_blank" rel="noopener">
-            Essayer Studio
+            Try Studio
           </a>
           <button class="studio__dropdown" aria-haspopup="menu" aria-expanded="false">
             <span class="dropdown__icon">

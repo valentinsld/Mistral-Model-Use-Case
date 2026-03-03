@@ -11,8 +11,7 @@ body {
   @include texts("base");
 
   *::selection {
-    background-color: color("primary");
-    color: color("background");
+    background-color: color("border");
   }
 }
 

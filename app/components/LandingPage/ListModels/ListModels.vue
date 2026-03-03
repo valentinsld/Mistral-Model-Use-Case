@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { animate, onScroll } from 'animejs'
+import PixelArts from '~/assets/webgl/elements/PixelArts'
 import modelsList from '~/datas/modelsList'
 
 const sectionRef = useTemplateRef<HTMLElement>('section')
@@ -11,6 +12,7 @@ let scrollTimeout: ReturnType<typeof setTimeout> | null = null
 let elementObserver: IntersectionObserver | null = null
 let sectionObserver: IntersectionObserver | null = null
 let lenis: any = null
+let pixelArts: PixelArts | null = null
 
 // Constante pour ajuster la durée du scroll (plus la valeur est grande, plus le scroll est lent)
 const SCROLL_DURATION_MULTIPLIER = 0.05
@@ -20,16 +22,19 @@ onMounted(() => {
   initAnimation()
   initLenis()
   initObservers()
+  initPixelArts()
 })
 
 onUnmounted(() => {
   if (scrollTimeout) clearTimeout(scrollTimeout)
   cleanupObservers()
+  if (lenis) lenis.value?.destroy()
+  if (pixelArts) pixelArts.destroy()
 })
 
-//
+// --------------
 // init Animation
-//
+// --------------
 function initAnimation() {
   if (!elementsRef.value || !sectionRef.value) return
 
@@ -51,9 +56,9 @@ function initAnimation() {
   })
 }
 
-//
+// --------------
 // Init Lenis
-//
+// --------------
 function initLenis() {
   lenis = useLenis(handleLenisScroll)
 }
@@ -143,9 +148,23 @@ function snapToCenter() {
   })
 }
 
-//
+// --------------
+// Init Pixel Arts
+// --------------
+
+function initPixelArts() {
+  pixelArts = new PixelArts(modelsList.map((model) => model.pixelArt))
+}
+
+watch(centerElementIndex, (newIndex) => {
+  if (pixelArts) {
+    pixelArts.setPixelArt(newIndex)
+  }
+})
+
+// --------------
 // Cleanup Observers
-//
+// --------------
 function cleanupObservers() {
   if (elementObserver) {
     elementObserver.disconnect()

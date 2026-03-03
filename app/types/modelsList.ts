@@ -1,3 +1,11 @@
+export interface PixelArt {
+  colors: Record<string, string>
+  size: {
+    x: number
+    y: number
+  }
+  array: string[][]
+}
 export interface Model {
   id: string
   smallName: string
@@ -5,14 +13,7 @@ export interface Model {
   description: string
   explanation: string
   image: string
-  pixelArt?: {
-    colors: Record<string, string>
-    size: {
-      x: number
-      y: number
-    }
-    array: string[][]
-  }
+  pixelArt?: PixelArt
 }
 
 export default interface ModelsList extends Array<Model> {}

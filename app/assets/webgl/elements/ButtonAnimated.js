@@ -132,7 +132,12 @@ export default class ButtonAnimated {
     }
 
     if (this.groupArrow) {
-      if (this.arrowTimeline) this.arrowTimeline.pause()
+      if (this.arrowTimeline && this.arrowTimeline.progress < 1) {
+        return
+      } else if (this.arrowTimeline && this.arrowTimeline.progress === 1) {
+        this.arrowTimeline.restart()
+        return
+      }
       this.arrowTimeline = createTimeline()
         .add(this.groupArrow.scale, {
           x: this.groupArrow.scale.x * 1.3,
@@ -151,8 +156,8 @@ export default class ButtonAnimated {
         .add(
           this.groupArrow.rotation,
           {
-            x: this.groupArrow.rotation.x + Math.PI,
-            y: [0, this.groupArrow.rotation.y - Math.PI * 0.15, 0],
+            x: [0, Math.PI],
+            y: [0, Math.PI * 0.15, 0],
             duration: 600,
             ease: "inOutQuad",
           },

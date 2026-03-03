@@ -31,10 +31,7 @@ export default class TailoredArrow {
     const geometry = new THREE.BoxGeometry(1, 1, 1)
     const material = new THREE.MeshStandardMaterial({
       color: this.color,
-      roughness: 0,
-      polygonOffset: true,
-      polygonOffsetFactor: 1,
-      polygonOffsetUnits: 1,
+      roughness: 0.5,
     })
     const positions = [
       [-2.5, 0, 0],
@@ -55,44 +52,25 @@ export default class TailoredArrow {
       return cube
     })
 
-    // create light 2 directional
-    this.light = new THREE.DirectionalLight(defaultColor, 2)
-    this.webgl.world.add(this.light)
-
-    // debug
-    // this.lightHelper = new THREE.DirectionalLightHelper(
-    //   this.light,
-    //   20,
-    //   0x0000ff,
-    // )
-    // this.webgl.world.add(this.lightHelper)
+    this.light = new THREE.PointLight(0xffffff, 0.05, 0.2)
+    this.lightHelper = new THREE.PointLightHelper(this.light, 50)
+    this.webgl.world.add(this.light, this.lightHelper)
   }
 
   resize() {
-    if (this.groupArrow) {
-      const iconRect = this.element.getBoundingClientRect()
-      this.groupArrow.position.set(
-        iconRect.left + iconRect.width / 2 + window.scrollX,
-        iconRect.top + iconRect.height / 2 + window.scrollY,
-        0,
-      )
-
-      const maxDim = Math.max(iconRect.width, iconRect.height) / 10
-      this.groupArrow.scale.set(maxDim, maxDim, maxDim)
-    }
-
-    // position light
-    this.light.position.set(
-      this.groupArrow.position.x,
-      this.groupArrow.position.y,
-      -50,
-    )
-    this.light.target.position.set(
-      this.groupArrow.position.x,
-      this.groupArrow.position.y,
+    const iconRect = this.element.getBoundingClientRect()
+    this.groupArrow.position.set(
+      iconRect.left + iconRect.width / 2 + window.scrollX,
+      -iconRect.top - iconRect.height / 2 - window.scrollY,
       0,
     )
-    this.light.target.updateMatrixWorld()
+
+    const maxDim = Math.max(iconRect.width, iconRect.height) / 10
+    this.groupArrow.scale.set(maxDim, maxDim, maxDim)
+
+    this.light.position
+      .copy(this.groupArrow.position)
+      .add(new THREE.Vector3(50, 80, 100))
   }
 
   update() {
@@ -100,8 +78,6 @@ export default class TailoredArrow {
       Math.cos(RAFManager.timer * 0.0075) * 0.2 * this.rotationDirection
     this.groupArrow.rotation.x =
       Math.sin(RAFManager.timer * 0.01) * 0.2 * this.rotationDirection
-    // this.groupArrow.rotation.x = 0.1 * this.rotationDirection
-    // this.groupArrow.rotation.y = 0.05 * this.rotationDirection
   }
 
   animateIn() {
@@ -164,8 +140,8 @@ export default class TailoredArrow {
       cube.material.dispose()
       this.groupArrow.remove(cube)
     })
-    this.webgl.world.remove(this.light)
-    // this.webgl.world.remove(this.lightHelper)
+
+    this.webgl.world.remove(this.light, this.lightHelper)
     this.webgl.world.remove(this.groupArrow)
   }
 }

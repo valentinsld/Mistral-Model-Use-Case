@@ -1,4 +1,5 @@
 import * as THREE from "three"
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 import RAFManager from "raf-manager"
 import ResizeManager from "resize-manager"
 
@@ -21,15 +22,17 @@ export default class WebGL {
     }
 
     WebGL.instance = this
-
+    this.canvas = document.querySelector("#webgl")
     this.size = {
       width: window.innerWidth,
       height: window.innerHeight + HEIGHT_OFFSET,
+      minSize: Math.min(window.innerWidth, window.innerHeight + HEIGHT_OFFSET),
     }
 
     this.initScene()
     this.initCamera()
     this.initRenderer()
+    this.resize()
 
     // keep bound references so we can remove listeners / RAF later
     this._update = this.update.bind(this)
@@ -52,10 +55,11 @@ export default class WebGL {
     this.scene = new THREE.Scene()
 
     this.world = new THREE.Object3D()
-    // this.world.position.y = HEIGHT_OFFSET / 2
     this.worldFixed = new THREE.Object3D()
-    this.scene.add(this.world)
-    this.scene.add(this.worldFixed)
+    const size = 1 / this.size.minSize
+    this.world.scale.set(size, size, size)
+    this.worldFixed.scale.set(size, size, size)
+    this.scene.add(this.world, this.worldFixed)
 
     // init ambient light
     const ambientLight = new THREE.AmbientLight(0xffffff, 1)
@@ -64,14 +68,14 @@ export default class WebGL {
   initCamera() {
     this.camera = new THREE.OrthographicCamera(
       0,
-      this.size.width,
+      Math.max(this.size.width / this.size.height, 1),
       0,
-      this.size.height,
+      -Math.max(this.size.height / this.size.width, 1),
       0.1,
-      1000,
+      100,
     )
 
-    this.camera.position.z = 500
+    this.camera.position.z = 30
   }
   initRenderer() {
     const isLowPerformance = this.detectLowPerformance()
@@ -89,7 +93,9 @@ export default class WebGL {
       Math.min(window.devicePixelRatio, isLowPerformance ? 1 : 2),
     )
     this.renderer.outputColorSpace = THREE.SRGBColorSpace
-    this.renderer.toneMapping = THREE.NoToneMapping
+    this.renderer.useLegacyLights = false
+    // this.renderer.toneMapping = THREE.ACESFilmicToneMapping
+    // this.renderer.toneMappingExposure = 1
 
     this.renderer.domElement.style.position = "fixed"
     this.renderer.domElement.style.top = `-${HEIGHT_OFFSET / 2}px`
@@ -106,8 +112,10 @@ export default class WebGL {
   }
 
   setScrollY(scrollY) {
-    this.camera.position.y = Math.round(-scrollY - HEIGHT_OFFSET / 2)
-    this.worldFixed.position.y = Math.round(-scrollY - HEIGHT_OFFSET / 2)
+    this.camera.position.y =
+      Math.round(-scrollY + HEIGHT_OFFSET * 0.5) / this.size.minSize
+    this.worldFixed.position.y =
+      Math.round(-scrollY + HEIGHT_OFFSET * 0.5) / this.size.minSize
   }
 
   update() {
@@ -115,10 +123,11 @@ export default class WebGL {
   }
 
   resize() {
-    this.camera.right = this.size.width = window.innerWidth
-    this.camera.bottom = this.size.height = window.innerHeight + HEIGHT_OFFSET
+    this.size.width = window.innerWidth
+    this.size.height = window.innerHeight + HEIGHT_OFFSET
+    ;((this.camera.right = Math.max(this.size.width / this.size.height, 1)),
+      (this.camera.bottom = -Math.max(this.size.height / this.size.width, 1)))
     this.camera.updateProjectionMatrix()
-
     this.renderer.setSize(this.size.width, this.size.height)
   }
 

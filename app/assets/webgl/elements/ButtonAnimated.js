@@ -42,7 +42,7 @@ export default class ButtonAnimated {
   initPlane() {
     this.planeGeometry = new THREE.PlaneGeometry(1, 1)
     this.planeMaterial = new THREE.RawShaderMaterial({
-      side: THREE.BackSide,
+      side: THREE.FrontSide,
       transparent: true,
       vertexShader,
       fragmentShader,
@@ -96,8 +96,8 @@ export default class ButtonAnimated {
 
     this.plane.position.set(
       this.element.offsetLeft + this.element.offsetWidth * 0.5,
-      this.element.offsetTop + this.element.offsetHeight * 0.5,
-      -10,
+      -this.element.offsetTop - this.element.offsetHeight * 0.5,
+      -1,
     )
     this.planeMaterial.uniforms.uPlaneWidth.value = this.element.offsetWidth
     this.planeMaterial.uniforms.uPlaneHeight.value = this.element.offsetHeight
@@ -107,8 +107,8 @@ export default class ButtonAnimated {
       const iconRect = this.iconEl.getBoundingClientRect()
       this.groupArrow.position.set(
         iconRect.left + iconRect.width / 2,
-        iconRect.top + iconRect.height / 2,
-        0,
+        -iconRect.top - iconRect.height / 2,
+        10,
       )
 
       const maxDim = Math.max(iconRect.width, iconRect.height) / 4

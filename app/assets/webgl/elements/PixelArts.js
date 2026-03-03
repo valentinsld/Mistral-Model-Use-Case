@@ -23,10 +23,10 @@ export default class PixelArts {
   init() {
     this.pixelArtsGlobal = new THREE.Group()
     this.pixelArtsGlobal.name = "pixelArtsGlobal"
+    this.webgl.worldFixed.add(this.pixelArtsGlobal)
 
-    const material = new THREE.MeshBasicMaterial({
-      color: INIT_COLOR,
-      // vertexColors: true,
+    const material = new THREE.MeshStandardMaterial({
+      roughness: 0.25,
     })
     this.instanceMesh = new THREE.InstancedMesh(
       new THREE.BoxGeometry(1, 1, 1),
@@ -48,9 +48,10 @@ export default class PixelArts {
     }
 
     this.instanceMesh.needsUpdate = true
-
     this.pixelArtsGlobal.add(this.instanceMesh)
-    this.webgl.worldFixed.add(this.pixelArtsGlobal)
+
+    this.light = new THREE.PointLight(0xffffff, 0.15, 1)
+    this.webgl.worldFixed.add(this.light)
   }
 
   out() {
@@ -137,11 +138,12 @@ export default class PixelArts {
         duration: 400,
         easing: "easeOutElastic(1, 0.6)",
         onBegin: () => {
-          const activeIndices = this.applyPixelArtColors(pixelArt)
+          this.applyPixelArtColors(pixelArt)
         },
         onUpdate: () => {
           this.updateInstanceMatrices(false)
         },
+        delay: () => Math.random() * 200,
       },
       300,
     )
@@ -208,7 +210,7 @@ export default class PixelArts {
 
         if (recalcPositions) {
           const x = (col - halfGrid) * this.cubeSize
-          const y = (row - halfGrid) * this.cubeSize
+          const y = (halfGrid - row) * this.cubeSize
           this.instancePositions[index].x = x
           this.instancePositions[index].y = y
           this.instancePositions[index].z = 0
@@ -239,9 +241,13 @@ export default class PixelArts {
 
     this.pixelArtsGlobal.position.set(
       window.innerHeight / 4 + this.size / 4,
-      window.innerHeight / 4 + this.size / 3 + HEIGHT_OFFSET,
+      -window.innerHeight / 4 - this.size / 3 - HEIGHT_OFFSET,
       0,
     )
+
+    this.light.position
+      .copy(this.pixelArtsGlobal.position)
+      .add(new THREE.Vector3(this.size * 0.4, this.size * 0.4, 400))
   }
 
   destroy() {
@@ -261,6 +267,9 @@ export default class PixelArts {
       this.instanceMesh.geometry.dispose()
       this.instanceMesh.material.dispose()
     }
+
+    this.webgl.worldFixed.remove(this.light)
+
     this.dummy = null
     this.instancePositions = null
     this.scaleMultipliers = null

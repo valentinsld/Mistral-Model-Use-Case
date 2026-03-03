@@ -15,8 +15,11 @@ onMounted(() => {
   const webgl = new WebGL()
 
   const lenis = useLenis((lenis) => {
-    webgl.setScrollY(lenis.actualScroll * -1)
+    webgl.setScrollY(lenis.actualScroll)
   })
+
+
+  // lenis.value?.stop()
 
   window.scrollTo(0, 0)
 })

@@ -1,5 +1,6 @@
 <template>
   <LandingPageHero />
   <LandingPageIntroductionModels />
-  <div style="height: 50dvh;"></div>
+  <LandingPageListModels />
+  <div style="height: 150dvh;"></div>
 </template>

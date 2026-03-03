@@ -1,0 +1,61 @@
+.list-models {
+  position: relative;
+  margin-top: 20dvh;
+
+  @include container();
+
+  display: flex;
+  justify-content: flex-end;
+
+  &__list {
+    @include screen-min("md") {
+      width: 50%;
+    }
+
+    .list {
+      &__element {
+        margin: spacing(30) 0;
+        padding: spacing(8);
+        max-width: 600px;
+
+        border: 1px solid color("border");
+        background-color: color("background-2", 300, 0.5);
+        backdrop-filter: blur(8px);
+
+        will-change: transform, opacity;
+
+        .element {
+          &__title {
+            @include texts("3xl");
+            font-weight: weight("medium");
+            margin-bottom: 0.15em;
+          }
+
+          &__description {
+            @include texts("xl");
+            margin-bottom: 1em;
+          }
+
+          &__explanation {
+          }
+        }
+
+        .element {
+          &__title {
+            @include texts("3xl");
+            font-weight: weight("medium");
+            margin-bottom: 0.15em;
+          }
+
+          &__description {
+            @include texts("xl");
+            margin-bottom: 1em;
+          }
+
+          &__explanation {
+          }
+        }
+      }
+    }
+  }
+}

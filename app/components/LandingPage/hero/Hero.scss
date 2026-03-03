@@ -84,7 +84,7 @@
         left: calc(var(--pos-x) * var(--square-size));
         top: calc(var(--pos-y) * var(--square-size));
         // background-color: color("border");
-        background-color: color("warning", 200, 0.5);
+        background-color: color("warning", 200, 0.3);
       }
 
       &__model {

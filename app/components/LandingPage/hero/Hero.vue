@@ -137,16 +137,16 @@ onUnmounted(() => {
 <template>
   <section ref="heroRef" class="hero" :style="{ '--square-size': SQUARE_SIZE + 'px' }">
     <div class="hero__container">
-      <div class="container__left">
-        <h1 class="left__title">
+      <div class="container__content">
+        <h1 class="content__title">
           It starts with frontier science.
         </h1>
 
-        <p class="left__description">
+        <p class="content__description">
           State of the art models with cutting edge capabilities, from cloud to edge.
         </p>
 
-        <UiButtonAnimated class="left__button">
+        <UiButtonAnimated class="content__button">
           Contact sales
         </UiButtonAnimated>
       </div>

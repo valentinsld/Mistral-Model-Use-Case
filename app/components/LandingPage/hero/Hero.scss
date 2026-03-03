@@ -7,6 +7,8 @@
     @include container();
 
     display: flex;
+    justify-content: center;
+    align-items: center;
 
     &,
     & > * {
@@ -14,17 +16,14 @@
     }
 
     .container {
-      &__left {
+      &__content {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         justify-content: center;
+        text-align: center;
 
-        @include screen-min("md") {
-          width: 50%;
-        }
-
-        .left {
+        .content {
           &__title {
             @include texts("6xl");
             margin-bottom: 0.1em;
@@ -58,11 +57,12 @@
       z-index: -1;
       inset: 0;
       background:
-      // background left to right
-        linear-gradient(
-          90deg,
-          color("background") 25%,
-          color("background", 500, 0.5) 65%
+        // background ellipse from center
+        radial-gradient(
+          ellipse at center,
+          color("background", 500, 0.9) 0%,
+          color("background", 500, 0.8) 20%,
+          color("background", 500, 0.5) 30%
         ),
         // background bottom to top
         linear-gradient(
@@ -70,6 +70,8 @@
             color("background", 500, 0) 75%,
             color("background") 100%
           );
+      background-size: 200% 100%;
+      background-position: center -3.5vh;
     }
 
     .background-grid {

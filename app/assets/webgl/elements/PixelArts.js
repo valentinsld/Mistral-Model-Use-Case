@@ -53,6 +53,39 @@ export default class PixelArts {
     this.webgl.worldFixed.add(this.pixelArtsGlobal)
   }
 
+  out() {
+    if (this.currentAnimation) {
+      this.currentAnimation.pause()
+    }
+
+    const tl = createTimeline()
+
+    tl.add(
+      this.scaleMultipliers,
+      {
+        value: 0,
+        duration: 300,
+        easing: "easeInOutQuad",
+        onUpdate: () => {
+          this.updateInstanceMatrices(false)
+        },
+      },
+      0,
+    )
+
+    tl.add(
+      this.pixelArtsGlobal.rotation,
+      {
+        y: Math.PI * 0.5,
+        duration: 300,
+        easing: "easeInOutQuad",
+      },
+      0, // Start at the beginning
+    )
+
+    this.currentAnimation = tl
+  }
+
   setPixelArt(index) {
     const pixelArt = this.listPixelArts[index]
     if (!pixelArt) {

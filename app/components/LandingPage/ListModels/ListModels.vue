@@ -97,7 +97,7 @@ function initObservers() {
     {
       // rootMargin négatif pour créer une zone au centre de l'écran
       rootMargin: '-45% 0px -45% 0px',
-      threshold: 0
+      threshold: [0.1, 0.5, 0.9] // Déclenche à différents niveaux de visibilité
     }
   )
 
@@ -114,7 +114,7 @@ function initObservers() {
       })
     },
     {
-      threshold: 0.25
+      threshold: 0.2
     }
   )
 
@@ -157,8 +157,16 @@ function initPixelArts() {
 }
 
 watch(centerElementIndex, (newIndex) => {
+  console.log('Center element index changed:', newIndex)
   if (pixelArts) {
     pixelArts.setPixelArt(newIndex)
+  }
+})
+
+watch(isSectionVisible, (isVisible) => {
+  console.log('Section visibility changed:', isVisible)
+  if (pixelArts && !isVisible) {
+    pixelArts.out()
   }
 })
 

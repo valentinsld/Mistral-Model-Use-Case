@@ -108,6 +108,10 @@
         padding: spacing(2);
         pointer-events: none;
 
+        // Appear animation
+        animation: modelAppear 0.6s ease both;
+        animation-delay: calc(var(--index, 0) * 120ms + 500ms);
+
         .model {
           &__image {
             width: 40%;
@@ -132,4 +136,15 @@
 .square-enter-from,
 .square-leave-to {
   opacity: 0;
+}
+
+@keyframes modelAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

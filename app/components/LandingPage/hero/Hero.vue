@@ -65,8 +65,16 @@ function scheduleToggle() {
 function initGridSquares() {
   for (let i = 0; i < 18; i++) {
     const pos = randomGridPos()
-    gridSquares.push({ id: gridIdCounter++, ...pos, visible: true })
+    gridSquares.push({ id: gridIdCounter++, ...pos, visible: false })
   }
+
+  // Stagger fade-in on mount
+  gridSquares.forEach((square, i) => {
+    setTimeout(() => {
+      square.visible = true
+    }, 100 + i * 80)
+  })
+
   scheduleToggle()
 }
 
@@ -244,10 +252,10 @@ onUnmounted(() => {
           :style="{ '--pos-x': square.x, '--pos-y': square.y }" />
       </TransitionGroup>
 
-      <div v-for="model in modelDisplays" :key="model.name" class="background-grid__model"
-        :style="{ '--pos-x': model.x, '--pos-y': model.y }">
-        <img :src="model.imageUrl" :alt="model.name" class="model__image">
-        <span class="model__name">{{ model.name }}</span>
+      <div v-for="(model, index) in modelDisplays" :key="model.name" class="background-grid__model"
+        :style="{ '--pos-x': model.x, '--pos-y': model.y, '--index': index }">
+        <img :src="model.imageUrl" :alt="model.name" class="model__image" role="presentation" />
+        <span class="model__name" aria-hidden="true">{{ model.name }}</span>
       </div>
     </div>
   </section>

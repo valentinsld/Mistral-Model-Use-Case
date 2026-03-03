@@ -39,22 +39,6 @@
           &__explanation {
           }
         }
-
-        .element {
-          &__title {
-            @include texts("3xl");
-            font-weight: weight("medium");
-            margin-bottom: 0.15em;
-          }
-
-          &__description {
-            @include texts("xl");
-            margin-bottom: 1em;
-          }
-
-          &__explanation {
-          }
-        }
       }
     }
   }

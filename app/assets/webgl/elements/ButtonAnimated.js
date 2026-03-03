@@ -177,7 +177,7 @@ export default class ButtonAnimated {
     }
   }
 
-  update(delta) {
+  update() {
     this.planeMaterial.uniforms.uTime.value = RafManager.timer * 0.002
 
     this.plane.scale.set(

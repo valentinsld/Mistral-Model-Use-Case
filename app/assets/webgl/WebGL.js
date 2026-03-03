@@ -56,6 +56,10 @@ export default class WebGL {
     this.worldFixed = new THREE.Object3D()
     this.scene.add(this.world)
     this.scene.add(this.worldFixed)
+
+    // init ambient light
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+    this.scene.add(ambientLight)
   }
   initCamera() {
     this.camera = new THREE.OrthographicCamera(
@@ -78,14 +82,14 @@ export default class WebGL {
       antialias: !isLowPerformance,
       powerPreference: isLowPerformance ? "low-power" : "high-performance",
       alpha: true,
+      logarithmicDepthBuffer: true,
     })
     this.renderer.setSize(this.size.width, this.size.height)
     this.renderer.setPixelRatio(
       Math.min(window.devicePixelRatio, isLowPerformance ? 1 : 2),
     )
     this.renderer.outputColorSpace = THREE.SRGBColorSpace
-    // this.renderer.toneMapping = THREE.ACESFilmicToneMapping // ou ACES pour du réalisme
-    // this.renderer.toneMappingExposure = 1.0
+    this.renderer.toneMapping = THREE.NoToneMapping
 
     this.renderer.domElement.style.position = "fixed"
     this.renderer.domElement.style.top = `-${HEIGHT_OFFSET / 2}px`

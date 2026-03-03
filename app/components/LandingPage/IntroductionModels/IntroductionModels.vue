@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { createTimeline, stagger, splitText, get, TextSplitter } from 'animejs'
+import TailoredArrow from '~/assets/webgl/elements/TailoredArrow'
 
 const sectionRef = useTemplateRef<HTMLElement>('section')
 const titleRef = useTemplateRef<HTMLElement>('title')
@@ -21,9 +22,14 @@ async function splitTextToSpans(el: HTMLElement) {
   return await splitText(el, { lines: true, chars: true, accessible: true })
 }
 
+let observer: IntersectionObserver | undefined
+let tailoredArrow: TailoredArrow | undefined
 onMounted(async () => {
   if (!titleLeftRef.value || !titleRightRef.value || !descriptionRef.value || !usageRef.value || !titleIconRef.value)
     return
+
+  // init webgl arrow
+  tailoredArrow = new TailoredArrow(titleIconRef.value)
 
   // Split text into individual character spans
   const titleLeft = await splitTextToSpans(titleLeftRef.value)
@@ -52,6 +58,14 @@ onMounted(async () => {
     delay: stagger(STAGGER_DELAY * 13),
   }, 0)
 
+  // Title right chars start slightly after left chars
+  tl.add(titleRight.lines, {
+    x: ['-1.4em', '0em'],
+    duration: 1500,
+    ease: 'outBack(1.2)',
+    onBegin: () => tailoredArrow?.animateIn(),
+  }, '-=800')
+
   // Usage fades in at the end
   tl.add(usageRef.value, {
     opacity: [0, 1],
@@ -61,23 +75,9 @@ onMounted(async () => {
     ease: 'outQuad',
   }, '-=300')
 
-  // Title right chars start slightly after left chars
-  tl.add(titleRight.lines, {
-    x: ['-3em', '0em'],
-    duration: 800,
-    ease: 'outQuad',
-  }, '+=400')
-
-  // Icon appears after title left chars
-  tl.add(titleIconRef.value, {
-    opacity: [0, 1],
-    duration: 8000,
-    ease: 'outQuad',
-  }, '-800')
-
   tl.reset()
 
-  const observer = new IntersectionObserver(
+  observer = new IntersectionObserver(
     (entries) => {
       if (entries[0]?.isIntersecting) {
         tl.play()
@@ -91,13 +91,12 @@ onMounted(async () => {
     observer.observe(sectionRef.value)
   }
 
-  onUnmounted(() => {
-    observer.disconnect()
+})
 
-    titleLeft.revert?.()
-    titleRight.revert?.()
-    desc.revert?.()
-  })
+onUnmounted(() => {
+  observer?.disconnect()
+
+  tailoredArrow?.destroy()
 })
 
 </script>

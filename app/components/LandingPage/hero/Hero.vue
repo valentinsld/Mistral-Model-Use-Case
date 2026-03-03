@@ -23,7 +23,7 @@ let gridIdCounter = 0
 let gridTimerId: ReturnType<typeof setTimeout> | null = null
 
 function randomGridPos() {
-  const xMin = Math.ceil(window.innerWidth * 0.3 / SQUARE_SIZE)
+  const xMin = 0
   const xMax = Math.floor(window.innerWidth / SQUARE_SIZE) - 1
   const yMax = Math.floor(window.innerHeight / SQUARE_SIZE) - 1
 

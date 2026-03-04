@@ -6,6 +6,9 @@ import RAFManager from "raf-manager"
 import { createTimeline } from "animejs"
 import { lerp } from "../utils/Lerp"
 
+import planeVertexShader from "../shaders/PlanevUv.vert"
+import shadowFragmentShader from "../shaders/PixelArtsShadow.frag"
+
 const GRID_SIZE = 21
 const INSTANCE_COUNT = GRID_SIZE * GRID_SIZE
 const INIT_COLOR = 0xffffff
@@ -55,7 +58,29 @@ export default class PixelArts {
     this.light = new THREE.PointLight(0xffffff, 0.2, 1, 2)
     this.webgl.worldFixed.add(this.light)
 
+    this.initShadowPlane()
     this.initInteraction()
+  }
+
+  initShadowPlane() {
+    this.shadowMaterial = new THREE.RawShaderMaterial({
+      vertexShader: planeVertexShader,
+      fragmentShader: shadowFragmentShader,
+      transparent: true,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+      uniforms: {
+        uColor: { value: new THREE.Color(0x423934) },
+        uOpacity: { value: 1 },
+      },
+    })
+    this.shadowPlane = new THREE.Mesh(
+      new THREE.PlaneGeometry(1, 1),
+      this.shadowMaterial,
+    )
+    // Tilt the plane so it reads as a ground plane under an ortho camera
+    this.shadowPlane.rotation.x = -(80 * Math.PI) / 180
+    this.webgl.worldFixed.add(this.shadowPlane)
   }
 
   initInteraction() {
@@ -96,16 +121,24 @@ export default class PixelArts {
       },
       0,
     )
-
-    tl.add(
-      this.instanceMesh.rotation,
-      {
-        y: Math.PI * 0.5,
-        duration: 300,
-        easing: "easeInOutQuad",
-      },
-      0, // Start at the beginning
-    )
+      .add(
+        this.instanceMesh.rotation,
+        {
+          y: Math.PI * 0.5,
+          duration: 300,
+          easing: "easeInOutQuad",
+        },
+        0,
+      )
+      .add(
+        this.shadowMaterial.uniforms.uOpacity,
+        {
+          value: 0,
+          duration: 300,
+          easing: "easeInOutQuad",
+        },
+        0,
+      )
 
     this.currentAnimation = tl
   }
@@ -136,16 +169,24 @@ export default class PixelArts {
       },
       0,
     )
-
-    tl.add(
-      this.instanceMesh.rotation,
-      {
-        y: Math.PI * 0.5,
-        duration: 300,
-        easing: "easeInOutQuad",
-      },
-      0, // Start at the beginning
-    )
+      .add(
+        this.instanceMesh.rotation,
+        {
+          y: Math.PI * 0.5,
+          duration: 300,
+          easing: "easeInOutQuad",
+        },
+        0, // Start at the beginning
+      )
+      .add(
+        this.shadowMaterial.uniforms.uOpacity,
+        {
+          value: 0,
+          duration: 300,
+          easing: "easeInOutQuad",
+        },
+        0,
+      )
 
     // Animation 2: Fade in only active cubes (colors applied early, invisible during phase 1 since scale=0)
     tl.add(
@@ -182,6 +223,14 @@ export default class PixelArts {
           // Reset rotation to 0 after completing the full spin to avoid overflow issues
           this.instanceMesh.rotation.y = 0
         },
+      },
+      300,
+    ).add(
+      this.shadowMaterial.uniforms.uOpacity,
+      {
+        value: 1,
+        duration: 400,
+        easing: "easeOutBack(1.22)",
       },
       300,
     )
@@ -271,6 +320,15 @@ export default class PixelArts {
     this.light.position
       .copy(this.pixelArtsGlobal.position)
       .add(new THREE.Vector3(this.size * 0.4, this.size * 0.4, 400))
+
+    // Shadow plane
+    const gridWorldSize = GRID_SIZE * this.cubeSize
+    this.shadowPlane.position.set(
+      this.pixelArtsGlobal.position.x,
+      this.pixelArtsGlobal.position.y - gridWorldSize * 0.6,
+      this.pixelArtsGlobal.position.z,
+    )
+    this.shadowPlane.scale.set(gridWorldSize * 1.15, gridWorldSize, 1)
   }
 
   update() {
@@ -312,6 +370,13 @@ export default class PixelArts {
     if (this.instanceMesh) {
       this.instanceMesh.geometry.dispose()
       this.instanceMesh.material.dispose()
+    }
+
+    if (this.shadowPlane) {
+      this.webgl.worldFixed.remove(this.shadowPlane)
+      this.shadowPlane.geometry.dispose()
+      this.shadowMaterial.dispose()
+      this.shadowPlane = null
     }
 
     this.webgl.worldFixed.remove(this.light)

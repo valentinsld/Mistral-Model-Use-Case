@@ -101,13 +101,16 @@
         &::after {
           content: "";
           position: absolute;
-          z-index: -1;
+          z-index: -2;
           inset: 0;
 
           border: 1px solid color("border");
+          background-color: color("background");
 
           transform-origin: center;
-          transition: transform 0.4s ease("InOutCubic");
+          transition:
+            transform 0.4s ease("InOutCubic"),
+            background-color 0.4s ease("InOutCubic");
         }
 
         &:hover {
@@ -117,6 +120,7 @@
           }
           &::after {
             transform: scale(1.04);
+            background-color: color("background-2", 200);
           }
         }
       }

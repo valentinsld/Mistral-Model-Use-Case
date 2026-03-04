@@ -62,9 +62,6 @@ export default class WebGL {
 
     this.world = new THREE.Object3D()
     this.worldFixed = new THREE.Object3D()
-    const size = 1 / this.size.minSize
-    this.world.scale.set(size, size, size)
-    this.worldFixed.scale.set(size, size, size)
     this.scene.add(this.world, this.worldFixed)
 
     // init ambient light
@@ -118,6 +115,7 @@ export default class WebGL {
   }
 
   setScrollY(scrollY) {
+    this.scrollY = scrollY
     this.camera.position.y =
       Math.round(-scrollY + HEIGHT_OFFSET * 0.5) / this.size.minSize
     this.worldFixed.position.y =
@@ -129,12 +127,28 @@ export default class WebGL {
   }
 
   resize() {
+    // update size object
     this.size.width = window.innerWidth
     this.size.height = window.innerHeight + HEIGHT_OFFSET
+    this.size.minSize = Math.min(this.size.width, this.size.height)
+
+    // update camera frustum to maintain aspect ratio
     ;((this.camera.right = Math.max(this.size.width / this.size.height, 1)),
       (this.camera.bottom = -Math.max(this.size.height / this.size.width, 1)))
+
+    // scale world to fit the new size (keep objects same physical size regardless of screen dimensions)
+    const size = 1 / this.size.minSize
+    this.world.scale.set(size, size, size)
+    this.worldFixed.scale.set(size, size, size)
+
+    // update camera projection and renderer size
     this.camera.updateProjectionMatrix()
     this.renderer.setSize(this.size.width, this.size.height)
+
+    // update scroll position to adjust for new size
+    if (this.scrollY !== undefined) {
+      this.setScrollY(this.scrollY)
+    }
   }
 
   destroy() {

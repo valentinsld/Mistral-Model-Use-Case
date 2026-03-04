@@ -110,7 +110,6 @@ function initObservers() {
   sectionObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        console.log('Section visibility:', entry.isIntersecting, 'Intersection ratio:', entry.intersectionRatio)
         isSectionVisible.value = entry.isIntersecting
         if (!entry.isIntersecting) {
           centerElementIndex.value = null // Reset center index if the section is no longer visible

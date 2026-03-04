@@ -14,6 +14,9 @@
 
     .list {
       &__element {
+        position: relative;
+        z-index: 2;
+
         margin: spacing(30) 0;
         padding: spacing(8);
         max-width: 600px;

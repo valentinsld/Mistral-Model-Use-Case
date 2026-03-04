@@ -306,16 +306,25 @@ export default class PixelArts {
   }
 
   resize() {
-    this.size = window.innerWidth * 0.3
+    const isMobile = window.innerWidth < 767
+    this.size = isMobile ? window.innerWidth * 0.7 : window.innerWidth * 0.3
     this.cubeSize = this.size / GRID_SIZE
 
     this.updateInstanceMatrices(true)
 
-    this.pixelArtsGlobal.position.set(
-      window.innerWidth / 4,
-      -window.innerHeight / 2 - HEIGHT_OFFSET + this.size / 4,
-      0,
-    )
+    if (isMobile) {
+      this.pixelArtsGlobal.position.set(
+        window.innerWidth / 2,
+        -window.innerHeight / 2 - HEIGHT_OFFSET + this.size / 4,
+        0,
+      )
+    } else {
+      this.pixelArtsGlobal.position.set(
+        window.innerWidth / 4,
+        -window.innerHeight / 2 - HEIGHT_OFFSET + this.size / 4,
+        0,
+      )
+    }
 
     this.light.position
       .copy(this.pixelArtsGlobal.position)

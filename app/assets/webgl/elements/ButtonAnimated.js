@@ -107,7 +107,7 @@ export default class ButtonAnimated {
       const iconRect = this.iconEl.getBoundingClientRect()
       this.groupArrow.position.set(
         iconRect.left + iconRect.width / 2,
-        -iconRect.top - iconRect.height / 2,
+        -iconRect.top - iconRect.height / 2 - window.scrollY,
         10,
       )
 

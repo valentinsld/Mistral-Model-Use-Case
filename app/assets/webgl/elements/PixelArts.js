@@ -262,15 +262,9 @@ export default class PixelArts {
 
     this.updateInstanceMatrices(true)
 
-    // Update red plane to match grid size
-    if (this.redPlane) {
-      const gridWorldSize = GRID_SIZE * this.cubeSize
-      this.redPlane.scale.set(gridWorldSize, gridWorldSize, 1)
-    }
-
     this.pixelArtsGlobal.position.set(
-      window.innerHeight / 4 + this.size / 4,
-      -window.innerHeight / 4 - this.size / 3 - HEIGHT_OFFSET,
+      window.innerWidth / 4,
+      -window.innerHeight / 2 - HEIGHT_OFFSET + this.size / 4,
       0,
     )
 

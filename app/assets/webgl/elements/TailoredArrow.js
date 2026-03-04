@@ -52,7 +52,7 @@ export default class TailoredArrow {
       return cube
     })
 
-    this.light = new THREE.PointLight(0xffffff, 0.05, 0.2)
+    this.light = new THREE.PointLight(0xffffff, 0.03, 0.15)
     this.lightHelper = new THREE.PointLightHelper(this.light, 50)
     this.webgl.world.add(this.light, this.lightHelper)
   }

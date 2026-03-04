@@ -50,7 +50,7 @@ export default class PixelArts {
     this.instanceMesh.needsUpdate = true
     this.pixelArtsGlobal.add(this.instanceMesh)
 
-    this.light = new THREE.PointLight(0xffffff, 0.15, 1)
+    this.light = new THREE.PointLight(0xffffff, 0.2, 1)
     this.webgl.worldFixed.add(this.light)
   }
 

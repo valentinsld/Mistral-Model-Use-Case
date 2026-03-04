@@ -62,7 +62,7 @@ export default class WebGL {
     this.scene.add(this.world, this.worldFixed)
 
     // init ambient light
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2)
     this.scene.add(ambientLight)
   }
   initCamera() {

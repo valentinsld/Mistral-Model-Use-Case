@@ -1,8 +1,10 @@
 import * as THREE from "three"
 import WebGL, { HEIGHT_OFFSET } from "../WebGL"
 import ResizeManager from "resize-manager"
+import RAFManager from "raf-manager"
 
 import { createTimeline } from "animejs"
+import { lerp } from "../utils/Lerp"
 
 const GRID_SIZE = 21
 const INSTANCE_COUNT = GRID_SIZE * GRID_SIZE
@@ -26,7 +28,7 @@ export default class PixelArts {
     this.webgl.worldFixed.add(this.pixelArtsGlobal)
 
     const material = new THREE.MeshStandardMaterial({
-      roughness: 0.25,
+      roughness: 0.4,
     })
     this.instanceMesh = new THREE.InstancedMesh(
       new THREE.BoxGeometry(1, 1, 1),
@@ -50,8 +52,29 @@ export default class PixelArts {
     this.instanceMesh.needsUpdate = true
     this.pixelArtsGlobal.add(this.instanceMesh)
 
-    this.light = new THREE.PointLight(0xffffff, 0.2, 1)
+    this.light = new THREE.PointLight(0xffffff, 0.2, 1, 2)
     this.webgl.worldFixed.add(this.light)
+
+    this.initInteraction()
+  }
+
+  initInteraction() {
+    this.targetRotation = { x: 0, y: 0 }
+
+    this._onMouseMove = this.handleMouseMove.bind(this)
+    window.addEventListener("mousemove", this._onMouseMove)
+
+    this._update = this.update.bind(this)
+    RAFManager.add(this._update)
+  }
+
+  handleMouseMove(e) {
+    // Mouse move: normalize position over canvas to [-1, 1] and store target rotation
+    const rect = this.webgl.canvas.getBoundingClientRect()
+    const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1
+    const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1
+    this.targetRotation.y = nx * -0.5
+    this.targetRotation.x = ny * -0.5
   }
 
   out() {
@@ -75,7 +98,7 @@ export default class PixelArts {
     )
 
     tl.add(
-      this.pixelArtsGlobal.rotation,
+      this.instanceMesh.rotation,
       {
         y: Math.PI * 0.5,
         duration: 300,
@@ -115,7 +138,7 @@ export default class PixelArts {
     )
 
     tl.add(
-      this.pixelArtsGlobal.rotation,
+      this.instanceMesh.rotation,
       {
         y: Math.PI * 0.5,
         duration: 300,
@@ -148,16 +171,16 @@ export default class PixelArts {
       300,
     )
 
-    // Rotate the global group
+    // Rotate the instance mesh
     tl.add(
-      this.pixelArtsGlobal.rotation,
+      this.instanceMesh.rotation,
       {
         y: [Math.PI * 1.5, Math.PI * 2],
         duration: 400,
         easing: "easeOutBack(1.22)",
         onComplete: () => {
           // Reset rotation to 0 after completing the full spin to avoid overflow issues
-          this.pixelArtsGlobal.rotation.y = 0
+          this.instanceMesh.rotation.y = 0
         },
       },
       300,
@@ -239,6 +262,12 @@ export default class PixelArts {
 
     this.updateInstanceMatrices(true)
 
+    // Update red plane to match grid size
+    if (this.redPlane) {
+      const gridWorldSize = GRID_SIZE * this.cubeSize
+      this.redPlane.scale.set(gridWorldSize, gridWorldSize, 1)
+    }
+
     this.pixelArtsGlobal.position.set(
       window.innerHeight / 4 + this.size / 4,
       -window.innerHeight / 4 - this.size / 3 - HEIGHT_OFFSET,
@@ -250,8 +279,31 @@ export default class PixelArts {
       .add(new THREE.Vector3(this.size * 0.4, this.size * 0.4, 400))
   }
 
+  update() {
+    this.pixelArtsGlobal.rotation.x = lerp(
+      this.pixelArtsGlobal.rotation.x,
+      this.targetRotation.x,
+      0.05,
+    )
+    this.pixelArtsGlobal.rotation.y = lerp(
+      this.pixelArtsGlobal.rotation.y,
+      this.targetRotation.y,
+      0.05,
+    )
+  }
+
   destroy() {
     ResizeManager.remove(this._resize)
+
+    if (this._onMouseMove) {
+      window.removeEventListener("mousemove", this._onMouseMove)
+      this._onMouseMove = null
+    }
+
+    if (this._update) {
+      RAFManager.remove(this._update)
+      this._update = null
+    }
 
     if (this.currentAnimation) {
       this.currentAnimation.pause()

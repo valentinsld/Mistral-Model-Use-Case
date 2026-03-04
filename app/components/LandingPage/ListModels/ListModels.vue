@@ -97,7 +97,7 @@ function initObservers() {
     {
       // rootMargin négatif pour créer une zone au centre de l'écran
       rootMargin: '-45% 0px -45% 0px',
-      threshold: [0.1, 0.5, 0.9] // Déclenche à différents niveaux de visibilité
+      threshold: [0.1, 0.5, 0.9]
     }
   )
 
@@ -110,11 +110,15 @@ function initObservers() {
   sectionObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
+        console.log('Section visibility:', entry.isIntersecting, 'Intersection ratio:', entry.intersectionRatio)
         isSectionVisible.value = entry.isIntersecting
+        if (!entry.isIntersecting) {
+          centerElementIndex.value = null // Réinitialiser l'index central si la section n'est plus visible
+        }
       })
     },
     {
-      threshold: 0.2
+      threshold: [0.1, 0.2]
     }
   )
 

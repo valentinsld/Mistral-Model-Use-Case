@@ -117,7 +117,7 @@ function initObservers() {
       })
     },
     {
-      threshold: [0.1, 0.2]
+      threshold: [0.1, 0.2, 0.3]
     }
   )
 

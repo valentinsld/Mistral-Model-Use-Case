@@ -71,7 +71,7 @@ export default class PixelArts {
       depthWrite: false,
       uniforms: {
         uColor: { value: new THREE.Color(0x423934) },
-        uOpacity: { value: 1 },
+        uOpacity: { value: 0 },
       },
     })
     this.shadowPlane = new THREE.Mesh(

@@ -7,6 +7,7 @@ import mistralMediumPixelArt from "./pixel-arts/mistral_medium.json"
 import nemoPixelArt from "./pixel-arts/nemo.json"
 import voxelPixelArt from "./pixel-arts/voxel.json"
 import voxelSmallPixelArt from "./pixel-arts/voxel-small.json"
+import magistralPixelArt from "./pixel-arts/magistral.json"
 
 const modelsList: ModelsList = [
   {
@@ -38,8 +39,8 @@ const modelsList: ModelsList = [
     description: "Specialized, transparent, and multilingual reasoning.",
     explanation:
       "Complex thinking, backed by deep understanding, with transparent reasoning you can follow and verify. The model excels in maintaining high-fidelity reasoning across numerous languages, even when switching between languages mid-task.",
-    image: "nemo.svg",
-    pixelArt: nemoPixelArt,
+    image: "magistral.svg",
+    pixelArt: magistralPixelArt,
   },
   {
     id: "medium_3",

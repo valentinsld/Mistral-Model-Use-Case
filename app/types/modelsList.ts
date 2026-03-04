@@ -8,10 +8,10 @@ export interface PixelArt {
 }
 export interface Model {
   id: string
-  smallName: string
+  smallName?: string
   name: string
   description: string
-  explanation: string
+  explanation?: string
   image: string
   pixelArt?: PixelArt
 }

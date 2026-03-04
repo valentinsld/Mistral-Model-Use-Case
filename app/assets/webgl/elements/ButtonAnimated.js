@@ -94,9 +94,10 @@ export default class ButtonAnimated {
     // position plane
     this.plane.scale.set(this.element.offsetWidth, this.element.offsetHeight, 1)
 
+    const elementRect = this.element.getBoundingClientRect()
     this.plane.position.set(
-      this.element.offsetLeft + this.element.offsetWidth * 0.5,
-      -this.element.offsetTop - this.element.offsetHeight * 0.5,
+      elementRect.left + elementRect.width * 0.5,
+      -elementRect.top - elementRect.height * 0.5 - window.scrollY,
       -1,
     )
     this.planeMaterial.uniforms.uPlaneWidth.value = this.element.offsetWidth

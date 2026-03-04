@@ -190,7 +190,7 @@ const modelDisplays = computed<ModelDisplay[]>(() => {
       const imageKey = Object.keys(modelImages).find(k => k.endsWith(`/${model.image}`))
       const imageUrl = imageKey ? modelImages[imageKey]!.default : ''
 
-      result.push({ x, y, name: model.smallName, imageUrl })
+      result.push({ x, y, name: model.smallName || model.name, imageUrl })
     }
   }
 

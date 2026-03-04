@@ -1,0 +1,130 @@
+.open-models {
+  position: relative;
+
+  @include container();
+
+  &__title {
+    margin-bottom: spacing(2);
+
+    @include texts("5xl");
+    font-weight: weight("medium");
+  }
+
+  &__description {
+    margin-bottom: spacing(12);
+
+    @include texts("xl");
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: spacing(8);
+
+    @include screen-max("md") {
+      grid-template-columns: 1fr;
+    }
+
+    margin-bottom: spacing(12);
+
+    .list {
+      &__item {
+        position: relative;
+
+        min-height: spacing(64);
+        padding: spacing(8);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
+        .item {
+          &__image {
+            align-self: flex-start;
+            max-width: spacing(24);
+            margin-bottom: auto;
+          }
+          &__title {
+            margin-bottom: spacing(2);
+
+            @include texts("2xl");
+            font-weight: weight("medium");
+          }
+          &__description {
+          }
+        }
+
+        //
+        // Background & animation hover
+        //
+        --square-size: 50px;
+
+        // Grille de carrés — fade-in au hover
+        &::before {
+          content: "";
+          position: absolute;
+          z-index: -1;
+          inset: 0;
+
+          background-image:
+            linear-gradient(to right, color("border") 1px, transparent 1px),
+            linear-gradient(to bottom, color("border") 1px, transparent 1px);
+          background-size:
+            var(--square-size) var(--square-size),
+            var(--square-size) var(--square-size);
+
+          -webkit-mask-image: linear-gradient(
+            90deg,
+            transparent 0%,
+            transparent 25%,
+            black 70%
+          );
+          mask-image: linear-gradient(
+            90deg,
+            transparent 0%,
+            transparent 25%,
+            black 70%
+          );
+
+          opacity: 0;
+          transform-origin: center;
+          transition:
+            opacity 0.4s ease("InOutCubic"),
+            transform 0.4s ease("InOutCubic");
+
+          @include screen-max("md") {
+            opacity: 1;
+          }
+        }
+
+        // Bordure extérieure — scale au hover
+        &::after {
+          content: "";
+          position: absolute;
+          z-index: -1;
+          inset: 0;
+
+          border: 1px solid color("border");
+
+          transform-origin: center;
+          transition: transform 0.4s ease("InOutCubic");
+        }
+
+        &:hover {
+          &::before {
+            opacity: 1;
+            transform: scale(1.04);
+          }
+          &::after {
+            transform: scale(1.04);
+          }
+        }
+      }
+    }
+  }
+
+  &__cta {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

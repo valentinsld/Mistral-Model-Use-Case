@@ -14,10 +14,6 @@ const RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345
 const STAGGER_DELAY = 20
 const CHAR_DURATION = 250
 
-function getRandomChar(): string {
-  return RANDOM_CHARS[Math.floor(Math.random() * RANDOM_CHARS.length)] || 'A'
-}
-
 async function splitTextToSpans(el: HTMLElement) {
   return await splitText(el, { lines: true, chars: true, accessible: true })
 }
@@ -81,7 +77,7 @@ onMounted(async () => {
     (entries) => {
       if (entries[0]?.isIntersecting) {
         tl.play()
-        observer.disconnect()
+        observer?.disconnect()
       }
     },
     { threshold: 0.5 },

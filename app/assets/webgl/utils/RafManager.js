@@ -48,9 +48,9 @@ const RAFManager = {
     return this
   },
 
-  // Initialise et affiche les stats de performance
+  // Initialize and display performance stats
   initStats() {
-    if (this.stats) return this // Évite de recréer
+    if (this.stats) return this // Avoid recreating
 
     this.stats = new Stats()
     this.stats.showPanel(0) // 0: fps, 1: ms, 2: mb

@@ -6,7 +6,7 @@ uniform float uPlaneWidth;
 uniform float uPlaneHeight;
 
 uniform float uTime;
-uniform float uPixelSize; // nombre de "pixels" sur la largeur
+uniform float uPixelSize; // number of "pixels" across the width
 
 varying vec2 vUv;
 
@@ -14,7 +14,7 @@ varying vec2 vUv;
 
 void main()
 {
-  // Quantifier les UV pour obtenir l'effet pixelisé
+  // Quantize the UVs to get the pixelated effect
   float aspect = uPlaneWidth / uPlaneHeight;
   vec2 resolution = vec2(uPixelSize, uPixelSize / aspect);
   vec2 pixelatedUv = floor(vUv * resolution) / resolution;

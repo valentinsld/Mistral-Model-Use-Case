@@ -1,52 +1,52 @@
-# Documentation des Styles SCSS
+# SCSS Styles Documentation
 
-Ce dossier contient la configuration globale des styles, des variables et des utilitaires pour le projet.
+This folder contains the project's global style configuration, variables, and utilities.
 
-## Architecture
+## Structure
 
-- `main.scss`: Point d'entrée principal des styles.
-- `reset.scss`: Réinitialisation CSS de base.
+- `main.scss`: Main entry point for styles.
+- `reset.scss`: Basic CSS reset.
 - `variables/`:
-  - `variables.scss`: Définition des variables CSS natives (`--color-primary`, etc.).
-  - `mixins.scss`: Fonctions et mixins SCSS pour utiliser ces variables.
+  - `variables.scss`: Definitions for native CSS variables (`--color-primary`, etc.).
+  - `mixins.scss`: SCSS functions and mixins that leverage those variables.
 
 ---
 
-## Fonctions Utilitaires
+## Utility Functions
 
-Ces fonctions facilitent l'accès aux variables CSS définies dans `variables.scss`.
+These functions simplify access to the CSS variables defined in `variables.scss`.
 
 ### `color($name, $shade: 500, $opacity: 1)`
 
-Récupère une couleur de la palette avec gestion des nuances et de l'opacité.
+Retrieves a palette color with shade and opacity handling.
 
-- **$name**: Nom de la couleur (ex: 'primary', 'danger').
-- **$shade**: Nuance de 0 à 1000 (défaut: 500).
-  - `< 500`: Mélange avec blanc (plus clair).
-  - `> 500`: Mélange avec noir (plus sombre).
-- **$opacity**: Opacité de 0 à 1 (défaut: 1).
+- **$name**: Color name (e.g., 'primary', 'danger').
+- **$shade**: Shade from 0 to 1000 (default: 500).
+  - `< 500`: Mix with white (lighter).
+  - `> 500`: Mix with black (darker).
+- **$opacity**: Opacity from 0 to 1 (default: 1).
 
 ```scss
-background: color('primary'); // Couleur de base
-color: color('danger', 700); // Version plus sombre
-border-color: color('success', 500, 0.5); // 50% d'opacité
+background: color("primary"); // Base color
+color: color("danger", 700); // Darker version
+border-color: color("success", 500, 0.5); // 50% opacity
 ```
 
 ### `font($font-name)`
 
-Récupère la famille de police.
+Retrieves the font family.
 
-- **$font-name**: 'sans' ou 'serif'.
+- **$font-name**: 'sans' or 'serif'.
 
 ```scss
-font-family: font('sans');
+font-family: font("sans");
 ```
 
 ### `spacing($multiplier)`
 
-Calcule un espacement basé sur l'unité de base (`--spacing`, par défaut 0.5rem).
+Computes spacing based on the base unit (`--spacing`, default 0.5rem).
 
-- **$multiplier**: Facteur multiplicateur.
+- **$multiplier**: Multiplier factor.
 
 ```scss
 margin: spacing(2); // 1rem
@@ -55,9 +55,9 @@ padding: spacing(4); // 2rem
 
 ### `size($multiplier)`
 
-Calcule une taille basée sur l'unité de taille (`--size`, par défaut 1rem).
+Computes size based on the size unit (`--size`, default 1rem).
 
-- **$multiplier**: Facteur multiplicateur.
+- **$multiplier**: Multiplier factor.
 
 ```scss
 width: size(10);
@@ -65,74 +65,74 @@ width: size(10);
 
 ### `weight($weight-name)`
 
-Récupère le poids de la police.
+Retrieves the font weight.
 
 - **$weight-name**: 'thin', 'regular', 'bold', 'black', etc.
 
 ```scss
-font-weight: weight('bold');
+font-weight: weight("bold");
 ```
 
 ### `ease($ease-name)`
 
-Récupère une courbe de bézier pour les transitions.
+Retrieves a bezier easing curve for transitions.
 
 - **$ease-name**: 'InSine', 'OutExpo', 'InOutBack', etc.
 
 ```scss
-transition: all 0.3s ease('OutCubic');
+transition: all 0.3s ease("OutCubic");
 ```
 
 ---
 
 ## Mixins
 
-Mixins pour la gestion du responsive, de la typographie et des composants communs.
+Mixins for responsive handling, typography, and common components.
 
 ### Responsive Design
 
 #### `screen-min($breakpoint)`
 
-Media query `min-width` (mobile-first).
+`min-width` media queries (mobile-first).
 
 - **$breakpoint**: 'sm', 'md', 'lg', 'xl', '2xl'.
 
 ```scss
-@include screen-min('md') {
+@include screen-min("md") {
   display: flex;
 }
 ```
 
 #### `screen-max($breakpoint)`
 
-Media query `max-width`.
+`max-width` media queries.
 
 - **$breakpoint**: 'sm', 'md', 'lg', 'xl', '2xl'.
 
 ```scss
-@include screen-max('sm') {
+@include screen-max("sm") {
   display: block;
 }
 ```
 
-### Typographie et Composants
+### Typography and Components
 
 #### `texts($size)`
 
-Applique des pré-reglages de typographie (taille, ligne, famille).
+Applies predefined typography settings (size, line-height, family).
 
 - **$size**: 'sm', 'base', 'lg', 'xl', '2xl' ... '6xl'.
-- Note: Les tailles à partir de 'lg' utilisent la police serif.
+- Note: Sizes from 'lg' upward use the serif font.
 
 ```scss
 h1 {
-  @include texts('4xl');
+  @include texts("4xl");
 }
 ```
 
 #### `link-styles()`
 
-Applique les styles par défaut pour les liens (couleur, soulignement, hover).
+Applies default styles for links (color, underline, hover).
 
 ```scss
 a {
@@ -142,7 +142,7 @@ a {
 
 #### `button-styles()`
 
-Applique les styles par défaut pour un bouton (background, padding, arrondi, hover).
+Applies default button styles (background, padding, border-radius, hover).
 
 ```scss
 .btn {

@@ -8,9 +8,9 @@ class ResizeManager {
   }
 
   /**
-   * Ajoute une fonction à appeler lors du resize
-   * @param {Function} callback - La fonction à exécuter
-   * @param {Number} priority - La priorité (0 à 5, 0 étant la plus haute priorité)
+   * Add a function to be called on resize
+   * @param {Function} callback - Function to execute
+   * @param {Number} priority - Priority (0 to 5, 0 is highest priority)
    */
   add(callback, priority = 5) {
     if (typeof callback !== "function") {
@@ -18,39 +18,39 @@ class ResizeManager {
       return
     }
 
-    // Clamp priority entre 0 et 5
+    // Clamp priority between 0 and 5
     const clampedPriority = Math.max(0, Math.min(5, priority))
 
     this.callbacks.set(callback, clampedPriority)
 
-    // Démarre l'écoute si ce n'est pas déjà fait
+    // Start listening if not already started
     if (!this.isListening) {
       this.startListening()
     }
   }
 
   /**
-   * Retire une fonction de la liste
-   * @param {Function} callback - La fonction à retirer
+   * Remove a function from the list
+   * @param {Function} callback - The function to remove
    */
   remove(callback) {
     this.callbacks.delete(callback)
 
-    // Arrête l'écoute si plus aucune callback
+    // Stop listening if no callbacks remain
     if (this.callbacks.size === 0 && this.isListening) {
       this.stopListening()
     }
   }
 
   /**
-   * Relance toutes les fonctions enregistrées
+   * Re-run all registered functions
    */
   reload() {
     this.executeCallbacks()
   }
 
   /**
-   * Gère l'événement resize avec throttle
+   * Handle resize event with throttle
    */
   handleResize() {
     if (this.throttleTimeout) {
@@ -64,15 +64,15 @@ class ResizeManager {
   }
 
   /**
-   * Exécute toutes les callbacks par ordre de priorité
+   * Execute all callbacks by priority order
    */
   executeCallbacks() {
-    // Trie les callbacks par priorité (0 = plus haute priorité)
+    // Sort callbacks by priority (0 = highest priority)
     const sortedCallbacks = Array.from(this.callbacks.entries()).sort(
-      (a, b) => a[1] - b[1]
+      (a, b) => a[1] - b[1],
     )
 
-    // Exécute chaque callback
+    // Execute each callback
     sortedCallbacks.forEach(([callback]) => {
       try {
         callback()
@@ -83,7 +83,7 @@ class ResizeManager {
   }
 
   /**
-   * Démarre l'écoute de l'événement resize
+   * Start listening to the resize event
    */
   startListening() {
     window.addEventListener("resize", this.resizeHandler)
@@ -91,7 +91,7 @@ class ResizeManager {
   }
 
   /**
-   * Arrête l'écoute de l'événement resize
+   * Stop listening to the resize event
    */
   stopListening() {
     window.removeEventListener("resize", this.resizeHandler)
@@ -99,7 +99,7 @@ class ResizeManager {
   }
 
   /**
-   * Nettoie toutes les références
+   * Clean up all references
    */
   destroy() {
     if (this.throttleTimeout) {

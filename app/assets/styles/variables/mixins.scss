@@ -1,32 +1,32 @@
 @use "sass:math";
 
 // ============================================
-// Fonction : color()
-// Retourne une couleur avec nuance et opacité
+// Function: color()
+// Returns a color with shade and opacity
 // ============================================
 @function color($name, $shade: 500, $opacity: 1) {
   $base-var: var(--color-#{$name});
   $white: #ffffff;
   $black: #000000;
 
-  // Déterminer la couleur selon la nuance
+  // Determine color based on shade
   $result: null;
 
   @if $shade == 500 {
     $result: $base-var;
   } @else if $shade < 500 {
-    // Calcul pour les teintes claires (0-499) : Mix avec blanc
+    // Calculation for light shades (0-499): mix with white
     // 0 = 100% white, 500 = 0% white
     $percentage: math.div(500 - $shade, 500) * 100%;
     $result: color-mix(in srgb, $white $percentage, $base-var);
   } @else {
-    // Calcul pour les teintes sombres (501-1000) : Mix avec noir
+    // Calculation for dark shades (501-1000): mix with black
     // 1000 = 100% black, 500 = 0% black
     $percentage: math.div($shade - 500, 500) * 100%;
     $result: color-mix(in srgb, $black $percentage, $base-var);
   }
 
-  // Appliquer l'opacité si différente de 1
+  // Apply opacity if different from 1
   @if $opacity != 1 {
     @return color-mix(in srgb, $result, transparent #{(1 - $opacity) * 100%});
   }
@@ -35,8 +35,8 @@
 }
 
 // ============================================
-// Fonction : font()
-// Retourne une famille de police selon le nom
+// Function: font()
+// Returns a font family based on the name
 // ============================================
 @function font($font-name) {
   $font-var: var(--font-#{$font-name});
@@ -44,8 +44,8 @@
 }
 
 // ============================================
-// Fonction : spacing() & size()
-// Retourne une valeur d'espacement multipliée
+// Function: spacing() & size()
+// Returns a multiplied spacing value
 // ============================================
 @function spacing($multiplier) {
   $spacing-var: var(--spacing);
@@ -57,8 +57,8 @@
 }
 
 // ============================================
-// Fonction : weight()
-// Retourne le poids de la police selon le nom
+// Function: weight()
+// Returns the font weight based on the name
 // ============================================
 @function weight($weight-name) {
   $weight-var: var(--font-weight-#{$weight-name});
@@ -67,8 +67,8 @@
 }
 
 // ============================================
-// fonction : ease()
-// Retourne une courbe d'animation selon le nom
+// Function: ease()
+// Returns an animation curve based on the name
 // ============================================
 @function ease($ease-name) {
   $ease-var: var(--ease-#{$ease-name});
@@ -77,7 +77,7 @@
 
 // ============================================
 // Mixin : screen-min() & screen-max()
-// Applique des styles selon les points de rupture
+// Apply styles according to breakpoints
 // ============================================
 @mixin screen-min($breakpoint) {
   @if $breakpoint == "sm" {
@@ -152,7 +152,7 @@
 
 // ============================================
 // mixin : texts
-// Applique des styles de texte prédéfinis
+// Apply predefined text styles
 // ============================================
 @mixin texts($size) {
   @if $size == "sm" {

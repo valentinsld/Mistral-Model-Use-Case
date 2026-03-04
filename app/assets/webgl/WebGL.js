@@ -104,7 +104,7 @@ export default class WebGL {
   }
 
   detectLowPerformance() {
-    // Détection basique de device faible
+    // Basic low-end device detection
     const memory = navigator.deviceMemory // GB de RAM (Chrome/Edge)
     const cores = navigator.hardwareConcurrency
 

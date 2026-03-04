@@ -14,7 +14,7 @@ let sectionObserver: IntersectionObserver | null = null
 let lenis: any = null
 let pixelArts: PixelArts | null = null
 
-// Constante pour ajuster la durée du scroll (plus la valeur est grande, plus le scroll est lent)
+// Constant to adjust scroll duration (higher value = slower scroll)
 const SCROLL_DURATION_MULTIPLIER = 0.05
 
 // lifecycle log to verify refs
@@ -67,10 +67,10 @@ function initLenis() {
 // Handle Lenis Scroll
 //
 function handleLenisScroll() {
-  // Clear le timeout précédent
+  // Clear the previous timeout
   if (scrollTimeout) clearTimeout(scrollTimeout)
 
-  // Attendre que l'utilisateur arrête de scroller (300ms d'inactivité)
+  // Wait for the user to stop scrolling (300ms of inactivity)
   scrollTimeout = setTimeout(() => {
     snapToCenter()
   }, 300)
@@ -82,7 +82,7 @@ function handleLenisScroll() {
 function initObservers() {
   if (!elementsRef.value || !sectionRef.value) return
 
-  // Observer pour les éléments (détecte le centre de l'écran)
+  // Observer for items (detects the center of the screen)
   elementObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -95,25 +95,25 @@ function initObservers() {
       })
     },
     {
-      // rootMargin négatif pour créer une zone au centre de l'écran
+      // Negative rootMargin to create a central zone on the screen
       rootMargin: '-45% 0px -45% 0px',
       threshold: [0.1, 0.5, 0.9]
     }
   )
 
-  // Observer chaque élément
+  // Observe each element
   elementsRef.value.forEach((el) => {
     elementObserver!.observe(el)
   })
 
-  // Observer pour la section (détecte si visible à 80%)
+  // Observer for the section (detects if visible at 80%)
   sectionObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         console.log('Section visibility:', entry.isIntersecting, 'Intersection ratio:', entry.intersectionRatio)
         isSectionVisible.value = entry.isIntersecting
         if (!entry.isIntersecting) {
-          centerElementIndex.value = null // Réinitialiser l'index central si la section n'est plus visible
+          centerElementIndex.value = null // Reset center index if the section is no longer visible
         }
       })
     },
@@ -135,17 +135,17 @@ function snapToCenter() {
   const element = elementsRef.value[centerElementIndex.value]
   if (!element) return
 
-  // Calculer la position pour centrer l'élément
+  // Calculate position to center the element
   const rect = element.getBoundingClientRect()
   const elementCenter = rect.top + rect.height / 2
   const viewportCenter = window.innerHeight / 2
   const offset = elementCenter - viewportCenter
 
-  // Calculer la durée en fonction de la distance (min: 0.5s, max: 2s)
+  // Calculate duration based on distance (min: 0.5s, max: 2s)
   const distance = Math.abs(offset)
   const dynamicDuration = Math.min(2, Math.max(0.5, distance * SCROLL_DURATION_MULTIPLIER))
 
-  // Scroller avec Lenis pour un effet smooth
+  // Scroll with Lenis for a smooth effect
   lenis.value?.scrollTo(window.scrollY + offset, {
     duration: dynamicDuration,
     easing: (x: number): number => 1 - Math.pow(1 - x, 4) // easeOutQuart : https://easings.net/#easeOutQuart

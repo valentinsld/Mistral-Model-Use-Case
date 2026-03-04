@@ -6,6 +6,12 @@ import ResizeManager from "resize-manager"
 THREE.ColorManagement.enabled = false
 
 export const HEIGHT_OFFSET = 200
+/**
+ * WebGL manager (singleton)
+ *
+ * This class intentionally returns the same instance when constructed multiple times.
+ * Use `new WebGL()` to get the global WebGL instance throughout the app.
+ */
 export default class WebGL {
   static instance
 

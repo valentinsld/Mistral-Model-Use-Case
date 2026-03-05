@@ -3,7 +3,7 @@ import WebGL from "../WebGL"
 import ResizeManager from "resize-manager"
 import RafManager from "raf-manager"
 
-import { createTimeline, stagger } from "animejs"
+import { animate, createTimeline, stagger } from "animejs"
 import RAFManager from "../utils/RafManager"
 
 const defaultColor = 0xfa520f
@@ -20,6 +20,7 @@ export default class TailoredArrow {
 
     this._resize = this.resize.bind(this)
     this._update = this.update.bind(this)
+    this._animateRotation = this.animateRotation.bind(this)
     ResizeManager.add(this._resize)
     RafManager.add(this._update)
   }
@@ -73,13 +74,6 @@ export default class TailoredArrow {
       .add(new THREE.Vector3(50, 80, 100))
   }
 
-  update() {
-    this.groupArrow.rotation.y =
-      Math.cos(RAFManager.timer * 0.0075) * 0.2 * this.rotationDirection
-    this.groupArrow.rotation.x =
-      Math.sin(RAFManager.timer * 0.01) * 0.2 * this.rotationDirection
-  }
-
   animateIn() {
     const DEG = Math.PI / 180
     this.groupArrow.rotation.set(-25 * DEG, -25 * DEG, 0)
@@ -129,11 +123,47 @@ export default class TailoredArrow {
         },
         "-=500",
       )
+
+    tl.onComplete = () => {
+      this.element.addEventListener("mouseenter", this._animateRotation)
+    }
+  }
+
+  animateRotation() {
+    if (this.rotationAnimation) return
+
+    const durationRotationX = 1400
+    const initRotX = this.groupArrow.rotation.x
+    const endRotX =
+      initRotX +
+      Math.sin((RAFManager.timer + durationRotationX) * 0.01) *
+        0.2 *
+        this.rotationDirection
+    this.rotationAnimation = animate(this.groupArrow.rotation, {
+      y: [0, Math.PI * 2],
+      x: {
+        value: [initRotX, initRotX + Math.PI * 0.5, endRotX],
+        duration: 1400,
+      },
+      duration: 2000,
+      ease: "outElastic(1, 0.3)",
+      onComplete: () => {
+        this.rotationAnimation = null
+      },
+    })
+  }
+
+  update() {
+    this.groupArrow.rotation.y =
+      Math.cos(RAFManager.timer * 0.0075) * 0.2 * this.rotationDirection
+    this.groupArrow.rotation.x =
+      Math.sin(RAFManager.timer * 0.01) * 0.2 * this.rotationDirection
   }
 
   destroy() {
     ResizeManager.remove(this._resize)
     RafManager.remove(this._update)
+    this.element.removeEventListener("mouseenter", this._animateRotation)
 
     this.cubes.forEach((cube) => {
       cube.geometry.dispose()

@@ -53,11 +53,19 @@ export default class ButtonAnimated {
         uPlaneWidth: { value: 0 },
         uPlaneHeight: { value: 0 },
         uPixelSize: { value: 20.0 },
+        uOpacity: { value: 0.0 },
       },
     })
     this.plane = new THREE.Mesh(this.planeGeometry, this.planeMaterial)
 
     this.webgl.world.add(this.plane)
+
+    animate(this.planeMaterial.uniforms.uOpacity, {
+      value: 1,
+      delay: 200,
+      duration: 800,
+      ease: "outQuart",
+    })
   }
 
   initArrow() {

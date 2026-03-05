@@ -7,6 +7,7 @@ uniform float uPlaneHeight;
 
 uniform float uTime;
 uniform float uPixelSize; // number of "pixels" across the width
+uniform float uOpacity;
 
 varying vec2 vUv;
 
@@ -29,6 +30,6 @@ void main()
 
   gl_FragColor = vec4(
     color,
-    1.0
+    uOpacity
   );
 }
